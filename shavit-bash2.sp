@@ -445,25 +445,18 @@ public void PrintToDiscord(int client, const char[] log, any ...)
 		GetClientName(client, clientName, 32);
 		
 		DiscordWebHook hook = new DiscordWebHook(g_sWebhook);
-		hook.SlackMode = true;
 		
 		hook.SetUsername("BASH 2.0");
 		
-		MessageEmbed Embed = new MessageEmbed();
-		
-		Embed.SetColor("#ff2222");
-		Embed.SetTitle(g_sHostName);
-		
 		char steamid[65];
-		char playerName[512];
+		char playerName[256];
 		GetClientAuthId(client, AuthId_SteamID64, steamid, sizeof(steamid));
-		Format(playerName, sizeof(playerName), "[%N](http://www.steamcommunity.com/profiles/%s)", client, steamid);
+		Format(playerName, sizeof(playerName), "[%N](<https://www.steamcommunity.com/profiles/%s>)", client, steamid);
+
+		char fullLog[512];
+		Format(fullLog, sizeof(fullLog), "%s %s", playerName, log);
 		
-		Embed.AddField("Player", playerName, true);
-		Embed.AddField("Event", log, true);
-		
-		hook.Embed(Embed);
-		
+		hook.SetContent(fullLog);
 		hook.Send();
 		delete hook;
 	}
