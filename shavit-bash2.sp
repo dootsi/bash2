@@ -1481,6 +1481,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		g_iRealButtons[client] = buttons;
 		// Update all information this tick
 		bool bCheck = true;
+		bool bOnlyGains = false;
 		
 		#if defined TIMER
 		
@@ -1501,6 +1502,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		if(StrContains(sSpecial, "bash_bypass", false) != -1) 
 		{
 			 	bCheck = false;
+		} 
+		if(StrContains(sSpecial, "bash_only_gains", false) != -1) 
+		{
+			 	bOnlyGains = true;
 		} 
 		
 		#endif
@@ -1553,7 +1558,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		CheckForStartKey(client);
 		
 		// After we have all the information we can get, do stuff with it
-		if(!(GetEntityFlags(client) & (FL_ONGROUND|FL_INWATER)) && GetEntityMoveType(client) == MOVETYPE_WALK && bCheck)
+		if(!(GetEntityFlags(client) & (FL_ONGROUND|FL_INWATER)) && GetEntityMoveType(client) == MOVETYPE_WALK && bCheck && !bOnlyGains)
 		{
 			for(int idx; idx < 4; idx++)
 			{
@@ -1594,9 +1599,16 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		
 		if(bCheck)
 		{
-			CheckForIllegalMovement(client, vel, buttons);
-			CheckForIllegalTurning(client, vel);
-			UpdateGains(client, vel, angles, buttons);
+			if(bOnlyGains)
+			{
+				UpdateGains(client, vel, angles, buttons);
+			}
+			else
+			{
+				CheckForIllegalMovement(client, vel, buttons);
+				CheckForIllegalTurning(client, vel);
+				UpdateGains(client, vel, angles, buttons);
+			}
 		}
 		
 		g_fLastMove[client][0]   = vel[0];
