@@ -2299,12 +2299,12 @@ stock void RecordKeySwitch(int client, int button, int oppositeButton, int btype
 			int style = Shavit_GetBhopStyle(client);
 			Shavit_GetStyleStrings(style, sStyleName, g_sStyleStrings[style].sStyleName, sizeof(stylestrings_t::sStyleName));
 			FormatEx(sStyle, sizeof(sStyle), "%s", g_sStyleStrings[style].sStyleName)
-			AnticheatLog(client, "key switch %d, avg: %.2f, dev: %.2f, p: %.2f％, nullPct: %.2f, Timing: %.1f, Style: %s", btype, mean, sd, positivePct * 100, nullPct * 100, timingPct * 100, sStyle);
+			// AnticheatLog(client, "key switch %d, avg: %.2f, dev: %.2f, p: %.2f％, nullPct: %.2f, Timing: %.1f, Style: %s", btype, mean, sd, positivePct * 100, nullPct * 100, timingPct * 100, sStyle);
 			#endif
 			
 			//AnticheatLog(client, "key switch %d, avg: %.2f, dev: %.2f, p: %.2f％, nullPct: %.2f, Timing: %.1f%%", btype, mean, sd, positivePct * 100, nullPct * 100, timingPct * 100);
 			#if !defined TIMER
-			AnticheatLog(client, "key switch %d, avg: %.2f, dev: %.2f, p: %.2f％, nullPct: %.2f, Timing: %.1f", btype, mean, sd, positivePct * 100, nullPct * 100, timingPct * 100);
+			//AnticheatLog(client, "key switch %d, avg: %.2f, dev: %.2f, p: %.2f％, nullPct: %.2f, Timing: %.1f", btype, mean, sd, positivePct * 100, nullPct * 100, timingPct * 100);
 			#endif
 			if(IsClientInGame(client) && g_hAntiNull.BoolValue) 
 			{
